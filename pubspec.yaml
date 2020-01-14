@@ -28,6 +28,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  cloud_firestore: ^0.13.0+1 # 14 January 2020
+  firebase_auth: ^0.15.3+1 # 14 January 2020
+  provider: ^4.0.1 # 14 January 2020
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
