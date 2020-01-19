@@ -12,6 +12,7 @@ enum Page {
   user,
 }
 
+
 Widget pageToWidget(Page pageInput) {
   if (pageInput == Page.pageOne) {
     return PageOneScreen();
@@ -26,6 +27,7 @@ Widget pageToWidget(Page pageInput) {
     return UserScreen();
   }
 }
+
 
 int pageToIndex(Page pageInput) {
   if (pageInput == Page.pageOne) {

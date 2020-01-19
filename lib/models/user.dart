@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 class User {
@@ -7,21 +8,21 @@ class User {
   String email;
 
   User({
-    this.userUid,
+    @required this.userUid,
     this.pseudo,
     this.email,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => new User(
         userUid: json["userUid"],
-        pseudo: json["pseudo"],
-        email: json["email"],
+        pseudo: json["pseudo"] ?? null,
+        email: json["email"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {
         "userUid": userUid,
-        "pseudo": pseudo,
-        "email": email,
+        "pseudo": pseudo ?? null,
+        "email": email ?? null,
       };
 
   factory User.fromDocument(DocumentSnapshot doc) {
