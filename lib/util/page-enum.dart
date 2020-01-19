@@ -37,8 +37,8 @@ int pageToIndex(Page pageInput) {
   else if (pageInput == Page.pageThree) {
     return 2;
   }
-  else { // should never be the case
-    return -1;
+  else { // For user
+    return 10;
   }
 }
 
@@ -52,7 +52,7 @@ Page indexToPage(int index) {
   else if (index == 2) {
     return Page.pageThree;
   }
-  else { // should never be the case
+  else { // For user, == 10
     return Page.user;
   }
 }
