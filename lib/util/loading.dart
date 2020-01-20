@@ -72,6 +72,50 @@ class LoadingScreen extends StatelessWidget {
   }
 }
 
+class LoadingPageScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Flutter App"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.portrait),
+            color: Colors.white,
+            iconSize: 42.0,
+            onPressed: () => null,
+          ),
+        ],
+      ),
+      body: LoadingScreen(
+        child: Text("Welcome"),
+        inAsyncCall: true,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: null,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey[700],
+        //showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_list_bulleted),
+            title: Text('Page 1'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            title: Text('Page 2'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business_center),
+            title: Text('Page 3'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /*
 class LoadingNoModalBarrier extends StatelessWidget {
   @override

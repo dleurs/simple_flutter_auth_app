@@ -3,24 +3,28 @@ import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 class User {
-  String userUid;
+  String uid;
+  bool isAnonymous;
   String pseudo;
   String email;
 
   User({
-    @required this.userUid,
+    @required this.uid,
+    @required this.isAnonymous,
     this.pseudo,
     this.email,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => new User(
-        userUid: json["userUid"],
+        uid: json["uid"],
+        isAnonymous: json["isAnonymous"],
         pseudo: json["pseudo"] ?? null,
         email: json["email"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {
-        "userUid": userUid,
+        "uid": uid,
+        "isAnonymous": isAnonymous,
         "pseudo": pseudo ?? null,
         "email": email ?? null,
       };

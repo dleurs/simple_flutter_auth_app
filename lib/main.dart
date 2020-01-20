@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_flutter_auth_app/models/pageNavigator.dart';
 
 import 'package:simple_flutter_auth_app/models/state.dart';
-import 'package:simple_flutter_auth_app/util/first-time-open-app.dart';
-import 'package:simple_flutter_auth_app/util/page-enum.dart';
+import 'package:simple_flutter_auth_app/models/pageNavigator.dart';
+import 'package:simple_flutter_auth_app/util/loading.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,12 +17,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: ChangeNotifierProvider<StateModel>(
-        create: (context) => StateModel(),
-        child: FirstTimeOpenApp(), 
-        // if it is not the first time the user open the app 
-        // then : FirstTimeOpenApp() will return BaseScaffold()
-        // else : FirstTimeOpenApp() will anonymous sign in, update StateModel and return BaseScaffold()
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<StateModel>(create: (context) => StateModel()),
+          ChangeNotifierProvider<PageNavigator>(
+              create: (context) => PageNavigator()),
+        ],
+        child: BaseScaffold(),
       ),
     );
   }
@@ -31,11 +32,10 @@ class MyApp extends StatelessWidget {
 class BaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<StateModel>(
-      builder: (context, state, child) {
-        //StateModel state = Provider.of<StateModel>(context);
+    return Consumer<PageNavigator>(
+      builder: (context, pageNavigator, child) {
 
-        if (state.currentPage != Page.user) {
+        if (pageNavigator.currentPage != Page.user) {
           return Scaffold(
             appBar: AppBar(
               title: Text("My Flutter App"),
@@ -44,14 +44,14 @@ class BaseScaffold extends StatelessWidget {
                   icon: Icon(Icons.portrait),
                   color: Colors.white,
                   iconSize: 42.0,
-                  onPressed: () => state.changePage(10),
+                  onPressed: () => pageNavigator.changePage(10),
                 ),
               ],
             ),
-            body: pageToWidget(state.currentPage),
+            body: pageToWidget(pageNavigator.currentPage),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: pageToIndex(state.currentPage),
-              onTap: state.changePage,
+              currentIndex: pageToIndex(pageNavigator.currentPage),
+              onTap: pageNavigator.changePage,
               selectedItemColor: Colors.blue,
               unselectedItemColor: Colors.grey[700],
               //showUnselectedLabels: false,
@@ -80,10 +80,10 @@ class BaseScaffold extends StatelessWidget {
                 icon: Icon(Icons.chevron_left),
                 color: Colors.white,
                 iconSize: 44.0,
-                onPressed: () => state.changePageToPrevious(),
+                onPressed: () => pageNavigator.changePageToPrevious(),
               ),
             ),
-            body: pageToWidget(state.currentPage),
+            body: pageToWidget(pageNavigator.currentPage),
           );
         }
       },

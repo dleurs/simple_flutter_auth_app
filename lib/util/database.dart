@@ -10,11 +10,32 @@ class DatabaseService {
   Future<User> getUser() {
     return Firestore.instance
         .collection('users')
-        .document(uid)
-        .get().then((doc) => User.fromDocument(doc));
+        .document(this.uid)
+        .get()
+        .then((doc) => User.fromDocument(doc));
   }
 
-  Future<void> updateUserData({@required String pseudo, @required String email}) async {
+  Future<bool> checkUserExist() async {
+    bool exists = false;
+    try {
+      await Firestore.instance
+          .collection('users')
+          .document(this.uid)
+          .get()
+          .then((doc) {
+        if (doc.exists)
+          exists = true;
+        else
+          exists = false;
+      });
+      return exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> updateUserData(
+      {@required String pseudo, @required String email}) async {
     return await Firestore.instance.collection('users').document(uid).setData({
       'uid': uid,
       'isAnonymous': false,
@@ -34,13 +55,13 @@ class DatabaseService {
     //FirebaseAuth
   }
 
-  Future<Map<String, dynamic>> getUserFirestore() async {
+  Future<User> getUserFirestore() async {
     if (uid != null) {
       return Firestore.instance
           .collection('users')
           .document(uid)
           .get()
-          .then((documentSnapshot) => documentSnapshot.data);
+          .then((documentSnapshot) => User.fromDocument(documentSnapshot));
     } else {
       print('firestore user uid can not be null');
       return null;

@@ -5,6 +5,29 @@ import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/user-screen.dart';
 
+class PageNavigator extends ChangeNotifier {
+  Page currentPage;
+  Page previousPage;
+
+  PageNavigator({
+    this.currentPage = Page.pageOne,
+    this.previousPage,
+  });
+
+  void changePage(int toIndex) {
+    this.previousPage = this.currentPage;
+    this.currentPage = indexToPage(toIndex);
+    notifyListeners();
+  }
+
+  void changePageToPrevious() {
+    var temp = this.previousPage;
+    this.previousPage = this.currentPage;
+    this.currentPage = temp;
+    notifyListeners();
+  }
+}
+
 enum Page {
   pageOne,
   pageTwo,
