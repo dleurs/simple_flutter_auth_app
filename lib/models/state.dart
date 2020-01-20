@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:simple_flutter_auth_app/models/settings.dart';
 import 'package:simple_flutter_auth_app/models/user.dart';
-import 'package:simple_flutter_auth_app/util/auth.dart';
+import 'package:simple_flutter_auth_app/util/database.dart';
+import 'package:simple_flutter_auth_app/util/store-local.dart';
 
 class StateModel extends ChangeNotifier {
   bool isLoading;
@@ -29,13 +30,37 @@ class StateModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // init
+  Future initState() async {
+    FirebaseUser firebaseUserAuth = await FirebaseAuth.instance.currentUser();
+    User user = await StoreLocal().getUserLocal();
+    this.updateStateModel(firebaseUserAuth, user);
+  }
+
+  Future signInAnonymous() async {
+    FirebaseUser firebaseUser =
+        (await FirebaseAuth.instance.signInAnonymously()).user;
+    User user = User(uid: firebaseUser.uid, isAnonymous: true);
+    await StoreLocal().storeUserLocal(user);
+    await DatabaseService(uid: firebaseUser.uid).updateUserDataAnonymous();
+    this.updateStateModel(firebaseUser, user);
+  }
+
+  // sign out
+  Future signOut() async {
+    await StoreLocal().deleteUserLocal();
+    await FirebaseAuth.instance.signOut();
+    this.updateStateModel(null, null);
+  }
+
   String toString() {
     String res = "";
     if (this.firebaseUserAuth != null) {
-      res += "firebaseUserAuth.uid = " + this.firebaseUserAuth.uid;
+      res += "firebaseAuth.uid = " + this.firebaseUserAuth.uid;
     } else {
-      res += "firebaseUserAuth is null.";
+      res += "firebaseAuth is null.";
     }
+    res += "\n";
     if (this.user != null) {
       res += "User.uid = " + this.user.uid;
     } else {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_flutter_auth_app/models/state.dart';
-import 'package:simple_flutter_auth_app/util/auth.dart';
 import 'package:simple_flutter_auth_app/util/loading.dart';
 
 class UserScreen extends StatefulWidget {
@@ -40,7 +39,7 @@ class _UserScreenState extends State<UserScreen> {
         builder.add(RaisedButton(
           onPressed: () async {
             state.switchLoading();
-            await AuthService(state:state).signOut();
+            await state.signOut();
             state.switchLoading();
           },
           child: Text('Logout'),
@@ -57,7 +56,7 @@ class _UserScreenState extends State<UserScreen> {
         builder.add(RaisedButton(
           onPressed: () async {
             state.switchLoading();
-            await AuthService(state:state).initState();
+            await state.initState();
             state.switchLoading();
           },
           child: Text('Refresh local data'),
@@ -80,7 +79,7 @@ class _UserScreenState extends State<UserScreen> {
           FlatButton(
             onPressed: () async {
               state.switchLoading();
-              await AuthService(state:state).signInAnonymous();
+              await state.signInAnonymous();
               state.switchLoading();
             },
             child: Text(
