@@ -78,6 +78,7 @@ class LoadingPageScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("My Flutter App"),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.portrait),

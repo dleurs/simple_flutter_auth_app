@@ -39,6 +39,7 @@ class BaseScaffold extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text("My Flutter App"),
+              centerTitle: true,
               actions: [
                 IconButton(
                   icon: Icon(Icons.portrait),
@@ -76,6 +77,7 @@ class BaseScaffold extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text("My Flutter App"),
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(Icons.chevron_left),
                 color: Colors.white,
