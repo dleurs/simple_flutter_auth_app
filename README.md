@@ -2,7 +2,7 @@
 
 A simple flutter auth app with a BottomNavigationBar, anonymous log in when the app open and state management with ChangeNotifierProvider.
 
-![](app_presentation.gif)
+![](screenshots/app_presentation.gif)
 
 A lot of element is taken from from https://github.com/delay/flutter_firebase_auth_example, with modification (coming soon) :  
 - username (instead of first/last name)
