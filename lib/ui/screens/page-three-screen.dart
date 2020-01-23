@@ -5,19 +5,27 @@ import 'package:simple_flutter_auth_app/models/state.dart';
 import 'package:simple_flutter_auth_app/util/loading.dart';
 
 class PageThreeScreen extends StatelessWidget {
+  const PageThreeScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<StateModel>(builder: (context, state, child) {
       return LoadingScreen(
-          inAsyncCall: state.isLoading,
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Text("Page three"),
-                Text(state.toString(),style: TextStyle(color: Colors.black.withOpacity(0.2))),
-              ],
-            ),
-          ));
+        inAsyncCall: state.isLoading,
+        child: ListView.builder(itemBuilder: (context, index) {
+         if (index == 0) {
+            return ListTile(
+              title: Text("Page three"),
+              subtitle: Text(state.toString()),
+            );
+          }
+          else {
+            return ListTile(
+              title: Text('Lorem Ipsum'),
+              subtitle: Text('$index'),
+            );
+          }
+        }),
+      );
     });
   }
 }

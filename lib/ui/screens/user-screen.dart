@@ -4,6 +4,7 @@ import 'package:simple_flutter_auth_app/models/state.dart';
 import 'package:simple_flutter_auth_app/util/loading.dart';
 
 class UserScreen extends StatefulWidget {
+  const UserScreen({Key key}) : super(key: key);
   @override
   _UserScreenState createState() => _UserScreenState();
 }
