@@ -1,61 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class Destination {
-  const Destination(this.title, this.icon, this.color);
-  final String title;
-  final IconData icon;
-  final MaterialColor color;
-}
+class NavigatorPage extends StatefulWidget {
+  const NavigatorPage({Key key, this.child}) : super(key: key);
 
-const List<Destination> allDestinations = <Destination>[
-  Destination('Home', Icons.home, Colors.teal),
-  Destination('Business', Icons.business, Colors.cyan),
-  Destination('School', Icons.school, Colors.orange),
-  Destination('Flight', Icons.flight, Colors.blue)
-];
-
-
-class DestinationView extends StatefulWidget {
-  const DestinationView({ Key key, this.destination }) : super(key: key);
-
-  final Destination destination;
+  final Widget child;
 
   @override
-  _DestinationViewState createState() => _DestinationViewState();
+  _NavigatorPageState createState() => _NavigatorPageState();
 }
 
-class _DestinationViewState extends State<DestinationView> {
+class _NavigatorPageState extends State<NavigatorPage> {
   TextEditingController _textController;
 
   @override
   void initState() {
     super.initState();
     _textController = TextEditingController(
-      text: 'sample text: ${widget.destination.title}',
+      text: 'sample text: ${widget.child}',
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.destination.title} Text'),
-        backgroundColor: widget.destination.color,
-      ),
-      backgroundColor: widget.destination.color[100],
-      body: Container(
-        padding: const EdgeInsets.all(32.0),
-        alignment: Alignment.center,
-        child: TextField(controller: _textController),
-      ),
+    return Navigator(
+      onGenerateRoute: (RouteSettings settings) {
+        return new MaterialPageRoute(
+          settings: settings,
+          builder: (BuildContext context) {
+            /*return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  widget.child,
+                  SizedBox(height: 16.0),
+                  RaisedButton(
+                    child: Text('push a route'),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          */return 
+                          Scaffold(
+                            appBar: AppBar(
+                                title: Text('Route for ${widget.child}')),
+                            body:
+                                ListView.builder(itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text('Lorem Ipsum'),
+                                subtitle: Text('$index'),
+                              );
+                            }), /*Container(
+                              padding: const EdgeInsets.all(16.0),
+                              alignment: Alignment.center,
+                              child: TextField(controller: _textController), 
+                            ),*/
+                          ); /*
+                        },
+                      ));
+                    },
+                  ),
+                ],
+              ),
+            );*/
+          },
+        );
+      },
     );
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
   }
 }
 
@@ -64,40 +73,41 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomePage> {
-  int _currentIndex = 0;
+class _HomePageState extends State<HomePage> {
+  int _pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        top: false,
         child: IndexedStack(
-          index: _currentIndex,
-          children: allDestinations.map<Widget>((Destination destination) {
-            return DestinationView(destination: destination);
-          }).toList(),
+          index: _pageIndex,
+          children: const <Widget>[
+            NavigatorPage(child: Text('Home')),
+            NavigatorPage(child: Text('Business')),
+            NavigatorPage(child: Text('School')),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.business), title: Text('Business')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.school), title: Text('School')),
+        ],
+        currentIndex: _pageIndex,
         onTap: (int index) {
           setState(() {
-            _currentIndex = index;
+            _pageIndex = index;
           });
         },
-        items: allDestinations.map((Destination destination) {
-          return BottomNavigationBarItem(
-            icon: Icon(destination.icon),
-            backgroundColor: destination.color,
-            title: Text(destination.title)
-          );
-        }).toList(),
       ),
     );
   }
 }
 
 void main() {
-  runApp(MaterialApp(home: HomePage(), debugShowCheckedModeBanner: false));
+  runApp(MaterialApp(home: HomePage()));
 }

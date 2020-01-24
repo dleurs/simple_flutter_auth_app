@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
 }
 
 class BaseScaffold extends StatefulWidget {
-  
   @override
   _BaseScaffoldState createState() => _BaseScaffoldState();
 }
@@ -62,49 +61,63 @@ class _BaseScaffoldState extends State<BaseScaffold> {
       appBar: AppBar(
         title: Text("My Flutter App"),
         centerTitle: true,
-        leading: (this.index >= 3) ? IconButton(
+        leading: (this.index >= 3)
+            ? IconButton(
                 icon: Icon(Icons.chevron_left),
                 color: Colors.white,
                 iconSize: 44.0,
-                onPressed: () => setState(() { this.index = this.previousIndex; } ),
-              ) : null,
+                onPressed: () => setState(() {
+                  this.index = this.previousIndex;
+                }),
+              )
+            : null,
         actions: [
           IconButton(
-            icon: Icon(Icons.portrait),
-            color: Colors.white,
-            iconSize: 42.0,
-            //onPressed: () => setState(() { this.previousIndex = this.index; this.index = 3;}),
-            onPressed: () => Navigator.push(context, SlideTopRoute(page: UserScreen())),
-          ),
+              icon: Icon(Icons.portrait),
+              color: Colors.white,
+              iconSize: 42.0,
+              //onPressed: () => setState(() { this.previousIndex = this.index; this.index = 3;}),
+              onPressed: () {
+                this.index = 4;
+                Navigator.push(
+                    context,
+                    SlideTopRoute(
+                      page: UserScreen(
+                        key: PageStorageKey('User page'),
+                      ),
+                    ));
+              }),
         ],
       ),
       body: PageStorage(
         child: pages[this.index],
         bucket: this.bucket,
       ),
-      bottomNavigationBar: (this.index <= 2) ? BottomNavigationBar(
-        currentIndex: this.index,
-        onTap: (int inputIndex) {
-          setState(() => this.index = inputIndex);
-        },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey[700],
-        //showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.format_list_bulleted),
-            title: Text('Page 1'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            title: Text('Page 2'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business_center),
-            title: Text('Page 3'),
-          ),
-        ],
-      ) : null,
+      bottomNavigationBar: (this.index <= 2)
+          ? BottomNavigationBar(
+              currentIndex: this.index,
+              onTap: (int inputIndex) {
+                setState(() => this.index = inputIndex);
+              },
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.grey[700],
+              //showUnselectedLabels: false,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.format_list_bulleted),
+                  title: Text('Page 1'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.calendar_today),
+                  title: Text('Page 2'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.business_center),
+                  title: Text('Page 3'),
+                ),
+              ],
+            )
+          : null,
     );
   }
 }
