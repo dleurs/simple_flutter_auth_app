@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_flutter_auth_app/models/state.dart';
-import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
-import 'package:simple_flutter_auth_app/util/loading.dart';
+//import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
+import 'package:simple_flutter_auth_app/utils/loading.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key key}) : super(key: key);
@@ -112,7 +112,7 @@ class _UserScreenState extends State<UserScreen> {
           child: ListView.builder(itemBuilder: (context, index) {
             if (index == 0) {
               return ListTile(
-                title: Text("Page one"),
+                title: Text("User page"),
                 subtitle: Text(state.toString()),
               );
             }

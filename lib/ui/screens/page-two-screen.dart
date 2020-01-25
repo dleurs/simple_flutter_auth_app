@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:simple_flutter_auth_app/models/state.dart';
-import 'package:simple_flutter_auth_app/util/loading.dart';
+import 'package:simple_flutter_auth_app/utils/loading.dart';
 
 class PageTwoScreen extends StatelessWidget {
   const PageTwoScreen({Key key}) : super(key: key);

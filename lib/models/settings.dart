@@ -1,6 +1,8 @@
+/*
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 
+// Not used for now
 class Settings {
   String settingsId;
 
@@ -30,3 +32,4 @@ String settingsToJson(Settings data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
+*/

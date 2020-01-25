@@ -51,11 +51,17 @@ class _BaseScaffoldState extends State<BaseScaffold> {
     ),
   ];
 
+  final List<String> titles = [
+    "Page one",
+    "Page two",
+    "Page three",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("My Flutter App"),
+          title: Text(titles[pageIndex]),
           centerTitle: true,
           actions: [
             IconButton(

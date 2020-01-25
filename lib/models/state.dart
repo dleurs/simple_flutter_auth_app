@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:simple_flutter_auth_app/models/settings.dart';
+//import 'package:simple_flutter_auth_app/models/settings.dart';
 import 'package:simple_flutter_auth_app/models/user.dart';
-import 'package:simple_flutter_auth_app/util/database.dart';
-import 'package:simple_flutter_auth_app/util/store-local.dart';
+import 'package:simple_flutter_auth_app/utils/database.dart';
+import 'package:simple_flutter_auth_app/utils/store-local.dart';
 
 class StateModel extends ChangeNotifier {
   bool isLoading;
   FirebaseUser firebaseUserAuth;
   User user;
-  Settings settings;
+  //Settings settings;
 
   StateModel({
     this.isLoading = false,
     this.firebaseUserAuth,
     this.user,
-    this.settings,
+    //this.settings,
   });
 
   void switchLoading() {
