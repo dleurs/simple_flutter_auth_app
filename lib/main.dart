@@ -1,113 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
-class NavigatorPage extends StatefulWidget {
-  const NavigatorPage({Key key, this.child}) : super(key: key);
+import 'package:simple_flutter_auth_app/models/state.dart';
+import 'package:simple_flutter_auth_app/ui/screens/page-one-screen.dart';
+import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
+import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
+import 'package:simple_flutter_auth_app/ui/screens/user-screen.dart';
+import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
 
-  final Widget child;
+void main() => runApp(MyApp());
 
-  @override
-  _NavigatorPageState createState() => _NavigatorPageState();
-}
-
-class _NavigatorPageState extends State<NavigatorPage> {
-  TextEditingController _textController;
-
-  @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController(
-      text: 'sample text: ${widget.child}',
-    );
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        return new MaterialPageRoute(
-          settings: settings,
-          builder: (BuildContext context) {
-            /*return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  widget.child,
-                  SizedBox(height: 16.0),
-                  RaisedButton(
-                    child: Text('push a route'),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          */return 
-                          Scaffold(
-                            appBar: AppBar(
-                                title: Text('Route for ${widget.child}')),
-                            body:
-                                ListView.builder(itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('Lorem Ipsum'),
-                                subtitle: Text('$index'),
-                              );
-                            }), /*Container(
-                              padding: const EdgeInsets.all(16.0),
-                              alignment: Alignment.center,
-                              child: TextField(controller: _textController), 
-                            ),*/
-                          ); /*
-                        },
-                      ));
-                    },
-                  ),
-                ],
-              ),
-            );*/
-          },
-        );
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<StateModel>(create: (context) => StateModel()),
+      ],
+      child: MaterialApp(
+        title: 'My Flutter App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: BaseScaffold(),
+      ),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class BaseScaffold extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _BaseScaffoldState createState() => _BaseScaffoldState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _pageIndex = 0;
+class _BaseScaffoldState extends State<BaseScaffold> {
+  int pageIndex = 0;
+  final PageStorageBucket bucket = PageStorageBucket();
+
+  final List<Widget> pages = [
+    PageOneScreen(
+      key: PageStorageKey('Page1'),
+    ),
+    PageTwoScreen(
+      key: PageStorageKey('Page2'),
+    ),
+    PageThreeScreen(
+      key: PageStorageKey('Page3'),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: _pageIndex,
-          children: const <Widget>[
-            NavigatorPage(child: Text('Home')),
-            NavigatorPage(child: Text('Business')),
-            NavigatorPage(child: Text('School')),
+        appBar: AppBar(
+          title: Text("My Flutter App"),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.portrait),
+                color: Colors.white,
+                iconSize: 42.0,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.downToUp,
+                          child: MaterialAppNoBottomNav(
+                              child: UserScreen(
+                                key: PageStorageKey('PageUser'),
+                              ),
+                              bucket: bucket)));
+                }),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business), title: Text('Business')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.school), title: Text('School')),
-        ],
-        currentIndex: _pageIndex,
-        onTap: (int index) {
-          setState(() {
-            _pageIndex = index;
-          });
-        },
-      ),
-    );
+        body: PageStorage(
+          child: pages[this.pageIndex],
+          bucket: this.bucket,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: this.pageIndex,
+          onTap: (int indexInput) {
+            setState(() => this.pageIndex = indexInput);
+          },
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey[700],
+          //showUnselectedLabels: false,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.format_list_bulleted),
+              title: Text('Page 1'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              title: Text('Page 2'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business_center),
+              title: Text('Page 3'),
+            ),
+          ],
+        ));
   }
-}
-
-void main() {
-  runApp(MaterialApp(home: HomePage()));
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_flutter_auth_app/models/state.dart';
+import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
 import 'package:simple_flutter_auth_app/util/loading.dart';
 
 class UserScreen extends StatefulWidget {
@@ -104,17 +105,41 @@ class _UserScreenState extends State<UserScreen> {
       // Test Anonymous sign up/in
       builder.add(Text(state.toString(),
           style: TextStyle(color: Colors.black.withOpacity(0.2))));
+
+      builder.add(
+        Container(
+          height: 300.0,
+          child: ListView.builder(itemBuilder: (context, index) {
+            if (index == 0) {
+              return ListTile(
+                title: Text("Page one"),
+                subtitle: Text(state.toString()),
+              );
+            }
+            else {
+              return ListTile(
+                title: Text('Lorem Ipsum'),
+                subtitle: Text('$index'),
+              );
+            }
+          }),
+        ),
+      );
+
       return builder;
     }
 
-    return Consumer<StateModel>(builder: (context, state, child) {
-      return LoadingScreen(
-          inAsyncCall: state.isLoading,
-          child: Center(
-            child: Column(
-              children: buildMenu(state),
-            ),
-          ));
-    });
+    //return MaterialAppNoBottomNav(
+    //  child: Consumer<StateModel>(builder: (context, state, child) {
+      return Consumer<StateModel>(builder: (context, state, child) {
+        return LoadingScreen(
+            inAsyncCall: state.isLoading,
+            child: Center(
+              child: Column(
+                children: buildMenu(state),
+              ),
+            ));
+      });
+    //);
   }
 }
