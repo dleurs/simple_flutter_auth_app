@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:simple_flutter_auth_app/models/state.dart';
+import 'package:simple_flutter_auth_app/services/init-state-model.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-one-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
@@ -14,17 +15,15 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<StateModel>(create: (context) => StateModel()),
-      ],
+    return ChangeNotifierProvider<StateModel>(
+      create: (context) => StateModel(),
       child: MaterialApp(
         title: 'My Flutter App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: BaseScaffold(),
+        home: InitStateModel(child: BaseScaffold()),
       ),
     );
   }

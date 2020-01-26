@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 //import 'package:simple_flutter_auth_app/models/settings.dart';
 import 'package:simple_flutter_auth_app/models/user.dart';
-import 'package:simple_flutter_auth_app/utils/database.dart';
-import 'package:simple_flutter_auth_app/utils/store-local.dart';
+import 'package:simple_flutter_auth_app/services/database.dart';
+import 'package:simple_flutter_auth_app/services/store-local.dart';
 
 class StateModel extends ChangeNotifier {
   bool isLoading;
@@ -13,7 +13,7 @@ class StateModel extends ChangeNotifier {
   //Settings settings;
 
   StateModel({
-    this.isLoading = false,
+    this.isLoading = true,
     this.firebaseUserAuth,
     this.user,
     //this.settings,
@@ -24,9 +24,10 @@ class StateModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateStateModel(FirebaseUser firebaseUserAuthInput, User userInput) {
+  void updateStateModel(FirebaseUser firebaseUserAuthInput, User userInput, bool isLoadingInput) {
     this.firebaseUserAuth = firebaseUserAuthInput;
     this.user = userInput;
+    this.isLoading = isLoadingInput;
     notifyListeners();
   }
 
@@ -34,7 +35,7 @@ class StateModel extends ChangeNotifier {
   Future initState() async {
     FirebaseUser firebaseUserAuth = await FirebaseAuth.instance.currentUser();
     User user = await StoreLocal().getUserLocal();
-    this.updateStateModel(firebaseUserAuth, user);
+    this.updateStateModel(firebaseUserAuth, user, false);
   }
 
   Future signInAnonymous() async {
@@ -43,14 +44,14 @@ class StateModel extends ChangeNotifier {
     User user = User(uid: firebaseUser.uid, isAnonymous: true);
     await StoreLocal().storeUserLocal(user);
     await DatabaseService(uid: firebaseUser.uid).updateUserDataAnonymous();
-    this.updateStateModel(firebaseUser, user);
+    this.updateStateModel(firebaseUser, user, false);
   }
 
   // sign out
   Future signOut() async {
     await StoreLocal().deleteUserLocal();
     await FirebaseAuth.instance.signOut();
-    this.updateStateModel(null, null);
+    this.updateStateModel(null, null, false);
   }
 
   String toString() {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_flutter_auth_app/models/state.dart';
 //import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
-import 'package:simple_flutter_auth_app/utils/loading.dart';
+import 'package:simple_flutter_auth_app/ui/widgets/loading.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key key}) : super(key: key);

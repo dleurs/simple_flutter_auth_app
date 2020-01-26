@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 // I have t recreate a new MaterialApp in order to use Navigator.push and Navigator.pop
 // In order to use animation
 class MaterialAppNoBottomNav extends StatelessWidget {
-  Widget child;
-  PageStorageBucket bucket; // Created in myApp
+  final Widget child;
+  final PageStorageBucket bucket; // Created in myApp
 
   MaterialAppNoBottomNav({@required this.child, @required this.bucket});
 
