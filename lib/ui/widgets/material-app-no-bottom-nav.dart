@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 // In order to use animation
 class MaterialAppNoBottomNav extends StatelessWidget {
   final Widget child;
+  final String title;
   final PageStorageBucket bucket; // Created in myApp
 
-  MaterialAppNoBottomNav({@required this.child, @required this.bucket});
+  MaterialAppNoBottomNav({@required this.child, @required this.title, @required this.bucket});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class MaterialAppNoBottomNav extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("User"),
+          title: Text(this.title),
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.clear),

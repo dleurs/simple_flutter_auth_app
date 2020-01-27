@@ -17,17 +17,20 @@ class StateModel extends ChangeNotifier {
     this.firebaseUserAuth,
     this.user,
     //this.settings,
-  });
+  }) {
+    print("Hello");
+    initState();
+    setIsLoading(false); // this.isLoading = true, at the beginning
+  }
 
-  void switchLoading() {
-    this.isLoading = !this.isLoading;
+  void setIsLoading(bool isLoadingInput) {
+    isLoading = isLoadingInput;
     notifyListeners();
   }
 
-  void updateStateModel(FirebaseUser firebaseUserAuthInput, User userInput, bool isLoadingInput) {
+  void updateStateModel(FirebaseUser firebaseUserAuthInput, User userInput) {
     this.firebaseUserAuth = firebaseUserAuthInput;
     this.user = userInput;
-    this.isLoading = isLoadingInput;
     notifyListeners();
   }
 
@@ -35,7 +38,7 @@ class StateModel extends ChangeNotifier {
   Future initState() async {
     FirebaseUser firebaseUserAuth = await FirebaseAuth.instance.currentUser();
     User user = await StoreLocal().getUserLocal();
-    this.updateStateModel(firebaseUserAuth, user, false);
+    this.updateStateModel(firebaseUserAuth, user);
   }
 
   Future signInAnonymous() async {
@@ -44,14 +47,14 @@ class StateModel extends ChangeNotifier {
     User user = User(uid: firebaseUser.uid, isAnonymous: true);
     await StoreLocal().storeUserLocal(user);
     await DatabaseService(uid: firebaseUser.uid).updateUserDataAnonymous();
-    this.updateStateModel(firebaseUser, user, false);
+    this.updateStateModel(firebaseUser, user);
   }
 
   // sign out
   Future signOut() async {
     await StoreLocal().deleteUserLocal();
     await FirebaseAuth.instance.signOut();
-    this.updateStateModel(null, null, false);
+    this.updateStateModel(null, null);
   }
 
   String toString() {

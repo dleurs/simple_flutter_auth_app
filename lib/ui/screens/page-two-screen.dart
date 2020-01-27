@@ -9,6 +9,7 @@ class PageTwoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<StateModel>(builder: (context, state, child) {
+      //print(state); // To check if there is not loop, consumer build one time 
       return LoadingScreen(
         inAsyncCall: state.isLoading,
         child: ListView.builder(itemBuilder: (context, index) {
@@ -18,7 +19,7 @@ class PageTwoScreen extends StatelessWidget {
               subtitle: Text(state.toString()),
             );
           }
-          else {
+          else if (index < 20) {
             return ListTile(
               title: Text('Lorem Ipsum'),
               subtitle: Text('$index'),

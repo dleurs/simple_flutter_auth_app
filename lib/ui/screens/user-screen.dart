@@ -40,9 +40,9 @@ class _UserScreenState extends State<UserScreen> {
         }
         builder.add(RaisedButton(
           onPressed: () async {
-            state.switchLoading();
+            state.setIsLoading(true);
             await state.signOut();
-            state.switchLoading();
+            state.setIsLoading(false);
           },
           child: Text('Logout'),
         ));
@@ -57,9 +57,9 @@ class _UserScreenState extends State<UserScreen> {
 
         builder.add(RaisedButton(
           onPressed: () async {
-            state.switchLoading();
+            state.setIsLoading(true);
             await state.initState();
-            state.switchLoading();
+            state.setIsLoading(false);
           },
           child: Text('Refresh local data'),
         ));
@@ -80,9 +80,9 @@ class _UserScreenState extends State<UserScreen> {
         builder.add(
           FlatButton(
             onPressed: () async {
-              state.switchLoading();
+              state.setIsLoading(true);
               await state.signInAnonymous();
-              state.switchLoading();
+              state.setIsLoading(false);
             },
             child: Text(
               'Anonymous log in',
@@ -116,7 +116,7 @@ class _UserScreenState extends State<UserScreen> {
                 subtitle: Text(state.toString()),
               );
             }
-            else {
+            else if (index < 20) {
               return ListTile(
                 title: Text('Lorem Ipsum'),
                 subtitle: Text('$index'),
@@ -132,6 +132,7 @@ class _UserScreenState extends State<UserScreen> {
     //return MaterialAppNoBottomNav(
     //  child: Consumer<StateModel>(builder: (context, state, child) {
       return Consumer<StateModel>(builder: (context, state, child) {
+        //print(state); // To check if there is not loop, consumer build one time 
         return LoadingScreen(
             inAsyncCall: state.isLoading,
             child: Center(

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:simple_flutter_auth_app/models/state.dart';
-import 'package:simple_flutter_auth_app/services/init-state-model.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-one-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: InitStateModel(child: BaseScaffold()),
+        home: BaseScaffold(),
       ),
     );
   }
@@ -76,6 +75,7 @@ class _BaseScaffoldState extends State<BaseScaffold> {
                               child: UserScreen(
                                 key: PageStorageKey('PageUser'),
                               ),
+                              title: "User",
                               bucket: bucket)));
                 }),
           ],
