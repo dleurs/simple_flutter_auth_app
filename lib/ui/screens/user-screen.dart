@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:simple_flutter_auth_app/models/state.dart';
-//import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
 import 'package:simple_flutter_auth_app/ui/widgets/loading.dart';
 
-class UserScreen extends StatefulWidget {
+class UserScreen extends StatelessWidget {
   const UserScreen({Key key}) : super(key: key);
-  @override
-  _UserScreenState createState() => _UserScreenState();
-}
-
-class _UserScreenState extends State<UserScreen> {
-  bool register0SignIn1 = false;
-
-  void _switchRegisterSignIn() {
-    setState(() {
-      register0SignIn1 = !register0SignIn1;
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> buildMenu(StateModel state) {
@@ -54,29 +42,6 @@ class _UserScreenState extends State<UserScreen> {
                 fontSize: 20.0,
               )),
         ));
-
-        builder.add(RaisedButton(
-          onPressed: () async {
-            state.setIsLoading(true);
-            await state.initState();
-            state.setIsLoading(false);
-          },
-          child: Text('Refresh local data'),
-        ));
-
-        builder.add(FlatButton(
-          onPressed: () => _switchRegisterSignIn(),
-          child: register0SignIn1
-              ? Text(
-                  'Don\'t have an account ? Register',
-                  style: TextStyle(color: Colors.black54),
-                )
-              : Text(
-                  'Have an Account ? Sign In',
-                  style: TextStyle(color: Colors.black54),
-                ),
-        ));
-
         builder.add(
           FlatButton(
             onPressed: () async {
@@ -91,21 +56,6 @@ class _UserScreenState extends State<UserScreen> {
           ),
         );
       }
-      /*
-      // Test Loading
-      builder.add(
-        RaisedButton(
-          onPressed: () {
-            state.switchLoading();
-          },
-          child: Text('Test loading'),
-        ),
-      );
-      */
-      // Test Anonymous sign up/in
-      builder.add(Text(state.toString(),
-          style: TextStyle(color: Colors.black.withOpacity(0.2))));
-
       builder.add(
         Container(
           height: 300.0,
@@ -125,13 +75,10 @@ class _UserScreenState extends State<UserScreen> {
           }),
         ),
       );
-
       return builder;
     }
 
-    //return MaterialAppNoBottomNav(
-    //  child: Consumer<StateModel>(builder: (context, state, child) {
-      return Consumer<StateModel>(builder: (context, state, child) {
+    return Consumer<StateModel>(builder: (context, state, child) {
         //print(state); // To check if there is not loop, consumer build one time 
         return LoadingScreen(
             inAsyncCall: state.isLoading,
@@ -141,6 +88,5 @@ class _UserScreenState extends State<UserScreen> {
               ),
             ));
       });
-    //);
   }
 }
