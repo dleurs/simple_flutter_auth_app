@@ -2,6 +2,9 @@
 /ios/GoogleService-Info.plist
 /android/app/google-services.json
 
+# Visual Studio Code
+.vscode
+
 # Miscellaneous
 *.class
 *.log
