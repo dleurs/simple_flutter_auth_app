@@ -9,6 +9,9 @@ A lot of element is taken from from https://github.com/delay/flutter_firebase_au
 - anonymous sign in when user open the app for the first time
 - The state management will be modified, from InheritedWidget to ChangeNotifierProvider
 
+If you want the same project but with a Drawer, go to :
+ - https://github.com/dleurs/simple_flutter_auth_app_drawer
+
 ## Getting Started
 
 In order to make this app working after a git clone, you will have to setup a Firebase.
