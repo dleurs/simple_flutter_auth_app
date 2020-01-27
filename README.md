@@ -29,17 +29,17 @@ Steps on https://codelabs.developers.google.com/codelabs/flutter-firebase/index.
 9. Go back to project overview
 
 10. For iOS :
-a. In project overview, click on iOS 
-b. On a terminal, in  simple_flutter_auth_app, "$ open ios/Runner.xcworkspace", a Xcode page opens
-c. copy Bundle Identifier (com.example.simpleFlutterAuthApp) in iOS bundle ID, then click register app
-d. Download GoogleService-Info.plist and paste it in simple_flutter_auth_app/ios (protected in .gitignore)
-e. Drag the file in the Xcode window Runner>Runner
-f. Finish ("Next" x 3 and "Skip this step")
+- a. In project overview, click on iOS 
+- b. On a terminal, in  simple_flutter_auth_app, "$ open ios/Runner.xcworkspace", a Xcode page opens
+- c. copy Bundle Identifier (com.example.simpleFlutterAuthApp) in iOS bundle ID, then click register app
+- d. Download GoogleService-Info.plist and paste it in simple_flutter_auth_app/ios (protected in .gitignore)
+- e. Drag the file in the Xcode window Runner>Runner
+- f. Finish ("Next" x 3 and "Skip this step")
 
 11. For Android :
-a. In project overview, click on Android
-b. Find "package" in android/app/src/main/AndroidManifest.xml (com.example.simple_flutter_auth_app) and copy in Android package name
-c. NOT POSSIBLE : In terminal, cd simple_flutter_auth_app, "$ keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore", password "android"
-d. NOT POSSIBLE : copy / paste SHA1 code
-e. Download google-services.json, paste in android/app
-f. Finish ("Next" x 2 and "Skip this step")
+- a. In project overview, click on Android
+- b. Find "package" in android/app/src/main/AndroidManifest.xml (com.example.simple_flutter_auth_app) and copy in Android package name
+- c. NOT POSSIBLE : In terminal, cd simple_flutter_auth_app, "$ keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore", password "android"
+- d. NOT POSSIBLE : copy / paste SHA1 code
+- e. Download google-services.json, paste in android/app
+- f. Finish ("Next" x 2 and "Skip this step")
