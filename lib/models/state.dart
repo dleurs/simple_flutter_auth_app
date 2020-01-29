@@ -13,15 +13,10 @@ class StateModel extends ChangeNotifier {
   //Settings settings;
 
   StateModel({
-    this.isLoading = true,
+    this.isLoading = false,
     this.firebaseUserAuth,
     this.user,
-    //this.settings,
-  }) {
-    print("Hello");
-    initState();
-    setIsLoading(false); // this.isLoading = true, at the beginning
-  }
+  }); 
 
   void setIsLoading(bool isLoadingInput) {
     isLoading = isLoadingInput;
@@ -35,19 +30,21 @@ class StateModel extends ChangeNotifier {
   }
 
   // init
-  Future initState() async {
+  Future<StateModel> initState() async {
     FirebaseUser firebaseUserAuth = await FirebaseAuth.instance.currentUser();
     User user = await StoreLocal().getUserLocal();
     this.updateStateModel(firebaseUserAuth, user);
+    return this;
   }
 
-  Future signInAnonymous() async {
+  Future<StateModel> signInAnonymous() async {
     FirebaseUser firebaseUser =
         (await FirebaseAuth.instance.signInAnonymously()).user;
     User user = User(uid: firebaseUser.uid, isAnonymous: true);
     await StoreLocal().storeUserLocal(user);
     await DatabaseService(uid: firebaseUser.uid).updateUserDataAnonymous();
     this.updateStateModel(firebaseUser, user);
+    return this;
   }
 
   // sign out
