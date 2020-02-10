@@ -6,18 +6,18 @@ import 'package:simple_flutter_auth_app/ui/widgets/loading.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({Key key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     List<Widget> buildMenu(StateModel state) {
       List<Widget> builder = [];
 
-      if (state.user != null) {
+      if (state.fireUser != null) {
         builder.add(Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 0.0),
           child: Text("Hello"),
         ));
-        if (state.user.isAnonymous) {
+        if (state.fireUser.isAnonymous) {
           builder.add(Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
             child: Text("Anonymous user",
@@ -65,8 +65,7 @@ class UserScreen extends StatelessWidget {
                 title: Text("User page"),
                 subtitle: Text(state.toString()),
               );
-            }
-            else if (index < 20) {
+            } else if (index < 20) {
               return ListTile(
                 title: Text('Lorem Ipsum'),
                 subtitle: Text('$index'),
@@ -79,14 +78,15 @@ class UserScreen extends StatelessWidget {
     }
 
     return Consumer<StateModel>(builder: (context, state, child) {
-        //print(state); // To check if there is not loop, consumer build one time 
-        return LoadingScreen(
-            inAsyncCall: state.isLoading,
-            child: Center(
-              child: Column(
-                children: buildMenu(state),
-              ),
-            ));
-      });
+      print("User page " + state.toString()); // To check if there is not loop, consumer build one time 
+      return LoadingScreen(
+        inAsyncCall: state.isLoading,
+        child: Center(
+          child: Column(
+            children: buildMenu(state),
+          ),
+        ),
+      );
+    });
   }
 }

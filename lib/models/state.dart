@@ -8,42 +8,43 @@ import 'package:simple_flutter_auth_app/services/store-local.dart';
 
 class StateModel extends ChangeNotifier {
   bool isLoading;
-  FirebaseUser firebaseUserAuth;
-  User user;
-  //Settings settings;
+  FirebaseUser fireUser;
+  User userInfo;
 
   StateModel({
     this.isLoading = false,
-    this.firebaseUserAuth,
-    this.user,
-  }); 
+    this.fireUser,
+    this.userInfo,
+  }) {
+    print("1. State model constructor, " + this.toString());
+  }
 
   void setIsLoading(bool isLoadingInput) {
-    isLoading = isLoadingInput;
+    this.isLoading = isLoadingInput;
     notifyListeners();
   }
 
-  void updateStateModel(FirebaseUser firebaseUserAuthInput, User userInput) {
-    this.firebaseUserAuth = firebaseUserAuthInput;
-    this.user = userInput;
+  void updateStateModel(FirebaseUser fireUserInput, User userInfoInput) {
+    this.fireUser = fireUserInput;
+    this.userInfo = userInfoInput;
     notifyListeners();
   }
 
   // init
   Future<StateModel> initState() async {
-    FirebaseUser firebaseUserAuth = await FirebaseAuth.instance.currentUser();
+    FirebaseUser fireUser = await FirebaseAuth.instance.currentUser();
     User user = await StoreLocal().getUserLocal();
-    this.updateStateModel(firebaseUserAuth, user);
+    this.updateStateModel(fireUser, user);
+    print("2. State model initialization, " + this.toString());
     return this;
   }
 
   Future<StateModel> signInAnonymous() async {
-    FirebaseUser firebaseUser =
+    FirebaseUser fireUser =
         (await FirebaseAuth.instance.signInAnonymously()).user;
-    User user = User(uid: firebaseUser.uid, isAnonymous: true);
-    await StoreLocal().storeUserLocal(user);
-    await DatabaseService(uid: firebaseUser.uid).updateUserDataAnonymous();
-    this.updateStateModel(firebaseUser, user);
+    await DatabaseService(uid: fireUser.uid).updateUserDataAnonymous();
+    this.updateStateModel(fireUser, null);
+    print("3. State model sign in anonymously, " + this.toString());
     return this;
   }
 
@@ -56,14 +57,8 @@ class StateModel extends ChangeNotifier {
 
   String toString() {
     String res = "";
-    if (this.firebaseUserAuth != null) {
-      res += "firebaseAuth.uid = " + this.firebaseUserAuth.uid;
-    } else {
-      res += "firebaseAuth is null.";
-    }
-    res += "\n";
-    if (this.user != null) {
-      res += "User.uid = " + this.user.uid;
+    if (fireUser != null) {
+      res += "uid:" + fireUser.uid;
     } else {
       res += "User null";
     }

@@ -9,7 +9,7 @@ class PageTwoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<StateModel>(builder: (context, state, child) {
-      //print(state); // To check if there is not loop, consumer build one time 
+      print("Page two " + state.toString()); // To check if there is not loop, consumer build one time 
       return LoadingScreen(
         inAsyncCall: state.isLoading,
         child: ListView.builder(itemBuilder: (context, index) {

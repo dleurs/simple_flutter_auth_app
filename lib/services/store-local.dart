@@ -11,10 +11,8 @@ class StoreLocal {
 
   Future<User> getUserLocal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //print("I am here" + (prefs.getString('user')).toString()  );
     if (prefs.getString('user') != null) {
       User user = userFromJson(prefs.getString('user'));
-      //print('USER: $user');
       return user;
     } else {
       return null;

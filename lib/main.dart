@@ -17,58 +17,6 @@ void main() => runApp(InitStateModel());
 // initialisation : new users are anonymously sign in StateModel().signInAnonymous()
 // and current user information are loaded StateModel().initState()
 
-class InitStateModel extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-        future: userAlreadyOpenApp(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("Error - return function userAlreadyOpenApp");
-            return MyApp();
-          } else if (!snapshot.hasData) {
-            return LoadingPageScreen();
-          } else if (snapshot.hasData && snapshot.data == false) {
-            return FutureBuilder<StateModel>(
-                future: StateModel().signInAnonymous(),
-                builder: (context, shapshotState) {
-                  if (shapshotState.hasError) {
-                    return Text("Error - signInAnonymous");
-                  } else if (!shapshotState.hasData) {
-                    return LoadingPageScreen();
-                  } else {
-                    StateModel state = shapshotState.data;
-                    return MyApp(stateAlreadySet: state);
-                  }
-                });
-          } else {
-            return FutureBuilder<StateModel>(
-                future: StateModel().initState(),
-                builder: (context, shapshotStateInit) {
-                  if (shapshotStateInit.hasError) {
-                    print("Error - initState");
-                    return MyApp();
-                  } else if (!shapshotStateInit.hasData) {
-                    return LoadingPageScreen();
-                  } else {
-                    StateModel state = shapshotStateInit.data;
-                    return MyApp(stateAlreadySet: state);
-                  }
-                });
-          }
-        });
-  }
-
-  Future<bool> userAlreadyOpenApp() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _userAlreadyOpenApp = (prefs.getBool('userAlreadyOpenApp') ?? false);
-    if (!_userAlreadyOpenApp) {
-      prefs.setBool('userAlreadyOpenApp', true);
-    }
-    return (_userAlreadyOpenApp);
-  }
-}
-
 class MyApp extends StatelessWidget {
   final StateModel stateAlreadySet;
   MyApp({this.stateAlreadySet});
@@ -79,8 +27,8 @@ class MyApp extends StatelessWidget {
       create: (context) => (stateAlreadySet == null)
           ? StateModel()
           : StateModel(
-              firebaseUserAuth: stateAlreadySet.firebaseUserAuth,
-              user: stateAlreadySet.user),
+              fireUser: stateAlreadySet.fireUser,
+              userInfo: stateAlreadySet.userInfo),
       child: MaterialApp(
         title: 'My Flutter App',
         theme: ThemeData(
@@ -172,5 +120,58 @@ class _BaseScaffoldState extends State<BaseScaffold> {
             ),
           ],
         ));
+  }
+}
+
+
+class InitStateModel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+        future: userAlreadyOpenApp(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("Error - return function userAlreadyOpenApp");
+            return MyApp();
+          } else if (!snapshot.hasData) {
+            return LoadingPageScreen();
+          } else if (snapshot.hasData && snapshot.data == false) {
+            return FutureBuilder<StateModel>(
+                future: StateModel().signInAnonymous(),
+                builder: (context, shapshotState) {
+                  if (shapshotState.hasError) {
+                    return Text("Error - signInAnonymous");
+                  } else if (!shapshotState.hasData) {
+                    return LoadingPageScreen();
+                  } else {
+                    StateModel state = shapshotState.data;
+                    return MyApp(stateAlreadySet: state);
+                  }
+                });
+          } else {
+            return FutureBuilder<StateModel>(
+                future: StateModel().initState(),
+                builder: (context, shapshotStateInit) {
+                  if (shapshotStateInit.hasError) {
+                    print("Error - initState");
+                    return MyApp();
+                  } else if (!shapshotStateInit.hasData) {
+                    return LoadingPageScreen();
+                  } else {
+                    StateModel state = shapshotStateInit.data;
+                    return MyApp(stateAlreadySet: state);
+                  }
+                });
+          }
+        });
+  }
+
+  Future<bool> userAlreadyOpenApp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _userAlreadyOpenApp = (prefs.getBool('userAlreadyOpenApp') ?? false);
+    if (!_userAlreadyOpenApp) {
+      prefs.setBool('userAlreadyOpenApp', true);
+    }
+    return (_userAlreadyOpenApp);
   }
 }
