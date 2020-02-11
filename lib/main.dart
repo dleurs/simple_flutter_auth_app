@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'package:simple_flutter_auth_app/models/state.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-one-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
-import 'package:simple_flutter_auth_app/ui/screens/user-screen.dart';
 import 'package:simple_flutter_auth_app/ui/widgets/loading.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_flutter_auth_app/ui/widgets/user-scaffold-no-bottom-nav.dart';
 
-void main() => runApp(InitStateModel());
+void main() => runApp(InitStateModel(/*MyApp()*/));
 // InitStateModel returns MyApp after initilisation
 // initialisation : new users are anonymously sign in StateModel().signInAnonymous()
 // and current user information are loaded StateModel().initState()

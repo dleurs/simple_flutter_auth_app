@@ -19,7 +19,7 @@ class _UserScaffoldNoBottomNavState extends State<UserScaffoldNoBottomNav> {
         title: Text("User"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: Icon(Icons.clear),
           color: Colors.white,
           iconSize: 36.0,
           onPressed: () {
@@ -34,4 +34,5 @@ class _UserScaffoldNoBottomNavState extends State<UserScaffoldNoBottomNav> {
       ),
     );
   }
+
 }
