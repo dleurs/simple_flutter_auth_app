@@ -8,9 +8,9 @@ import 'package:simple_flutter_auth_app/ui/screens/page-three-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/page-two-screen.dart';
 import 'package:simple_flutter_auth_app/ui/screens/user-screen.dart';
 import 'package:simple_flutter_auth_app/ui/widgets/loading.dart';
-import 'package:simple_flutter_auth_app/ui/widgets/material-app-no-bottom-nav.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_flutter_auth_app/ui/widgets/user-scaffold-no-bottom-nav.dart';
 
 void main() => runApp(InitStateModel());
 // InitStateModel returns MyApp after initilisation
@@ -30,13 +30,16 @@ class MyApp extends StatelessWidget {
               fireUser: stateAlreadySet.fireUser,
               userInfo: stateAlreadySet.userInfo),
       child: MaterialApp(
-        title: 'My Flutter App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: BaseScaffold(),
-      ),
+          title: 'My Flutter App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          debugShowCheckedModeBanner: false,
+          //home: BaseScaffold(),
+          routes: {
+            '/': (context) => BaseScaffold(),
+            '/userPage': (context) => UserScaffoldNoBottomNav(), // UserScreen
+          }),
     );
   }
 }
@@ -48,7 +51,6 @@ class BaseScaffold extends StatefulWidget {
 
 class _BaseScaffoldState extends State<BaseScaffold> {
   int pageIndex = 0;
-  final PageStorageBucket bucket = PageStorageBucket();
 
   final List<Widget> pages = [
     PageOneScreen(
@@ -80,23 +82,11 @@ class _BaseScaffoldState extends State<BaseScaffold> {
                 color: Colors.white,
                 iconSize: 42.0,
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.downToUp,
-                          child: MaterialAppNoBottomNav(
-                              child: UserScreen(
-                                key: PageStorageKey('PageUser'),
-                              ),
-                              title: "User",
-                              bucket: bucket)));
+                  Navigator.pushNamed(context, '/userPage');
                 }),
           ],
         ),
-        body: PageStorage(
-          child: pages[this.pageIndex],
-          bucket: this.bucket,
-        ),
+        body: pages[this.pageIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: this.pageIndex,
           onTap: (int indexInput) {
@@ -122,7 +112,6 @@ class _BaseScaffoldState extends State<BaseScaffold> {
         ));
   }
 }
-
 
 class InitStateModel extends StatelessWidget {
   @override
