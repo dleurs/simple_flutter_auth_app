@@ -10,6 +10,7 @@ class StateModel extends ChangeNotifier {
   bool isLoading;
   FirebaseUser fireUser;
   User userInfo;
+  final PageStorageBucket bucket = PageStorageBucket();
 
   StateModel({
     this.isLoading = false,

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           //home: BaseScaffold(),
           routes: {
             '/': (context) => BaseScaffold(),
-            '/userPage': (context) => UserScaffoldNoBottomNav(), // UserScreen
+            '/userPage': (context) => UserScaffoldNoBottomNav(bucket: Provider.of<StateModel>(context,listen: false).bucket), // UserScreen
           }),
     );
   }

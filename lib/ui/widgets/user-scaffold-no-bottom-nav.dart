@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:simple_flutter_auth_app/ui/screens/user-screen.dart';
 
+/*
+class UserScaffoldNoBottomNav extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}
+*/
+
 class UserScaffoldNoBottomNav extends StatefulWidget {
   //final Widget child; = UserScreen(key: PageStorageKey('PageUser'),),
   //final String title; = "User"
+  final PageStorageBucket bucket;
 
-  UserScaffoldNoBottomNav();
+  // UserScaffoldNoBottomNav({@required this.child, @required this.title, @required this.bucket});
+  UserScaffoldNoBottomNav({@required this.bucket});
 
   @override
-  _UserScaffoldNoBottomNavState createState() => _UserScaffoldNoBottomNavState();
+  _UserScaffoldNoBottomNavState createState() =>
+      _UserScaffoldNoBottomNavState();
 }
 
 class _UserScaffoldNoBottomNavState extends State<UserScaffoldNoBottomNav> {
@@ -29,10 +43,12 @@ class _UserScaffoldNoBottomNavState extends State<UserScaffoldNoBottomNav> {
           },
         ),
       ),
-      body: UserScreen(
-        key: PageStorageKey('PageUser'),
+      body: PageStorage(
+        child: UserScreen(
+          key: PageStorageKey('PageUser'),
+        ),
+        bucket: widget.bucket,
       ),
     );
   }
-
 }
