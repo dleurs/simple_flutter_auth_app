@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
           //home: BaseScaffold(),
           routes: {
             '/': (context) => BaseScaffold(),
-            '/userPage': (context) => UserScaffoldNoBottomNav(bucket: Provider.of<StateModel>(context,listen: false).bucket), // UserScreen
+            '/userPage': (context) => UserScaffoldNoBottomNav(bucket: Provider.of<StateModel>(context,listen: false).bucket), 
+            // bucket is used to save scrool state. No need for BaseScaffold but necessary for USerPage, don't know why
           }),
     );
   }
